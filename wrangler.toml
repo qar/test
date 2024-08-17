@@ -1,0 +1,22 @@
+name = "extension-hub"
+compatibility_date = "2023-12-01"
+main="./src/index.ts"
+
+# [vars]
+# MY_VAR = "my-variable"
+
+# [[kv_namespaces]]
+# binding = "MY_KV_NAMESPACE"
+# id = "xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx"
+
+# [[r2_buckets]]
+# binding = "MY_BUCKET"
+# bucket_name = "my-bucket"
+
+[[d1_databases]]
+binding = "DB"
+database_name = "extension-hub"
+database_id = "523ddb49-2072-4558-a964-432a5952e560"
+
+[triggers]
+crons = ["5 8,9 * * *", "5 15,16 * * *"]
