@@ -5,7 +5,7 @@ import { prettyJSON } from 'hono/pretty-json';
 
 import EcoWatt from './handler/ecowatt';
 import Ecogaz from './handler/ecogaz';
-import BoostModeDuration from './handler/boostModeDuration';
+import AppFeatures from './handler/appFeatures';
 import EcoWattSignalModel from './schema/ecowattSignal';
 import EcogazSignalModel from './schema/ecogazSignal';
 import { fetchEcowattSignals } from './scheduled/ecowatt';
@@ -28,7 +28,7 @@ const v1 = app.route('/v1');
 
 v1.route('/ecowatt', EcoWatt);
 v1.route('/ecogaz', Ecogaz);
-v1.route('/trv/boostModeDurations', BoostModeDuration);
+v1.route('/appFeatures', AppFeatures);
 
 const scheduled: ExportedHandlerScheduledHandler<Bindings> = async (event, env, ctx) => {
   const ecoWattSignalModel = new EcoWattSignalModel(env.DB);

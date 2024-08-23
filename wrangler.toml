@@ -5,9 +5,9 @@ main="./src/index.ts"
 # [vars]
 # MY_VAR = "my-variable"
 
-# [[kv_namespaces]]
-# binding = "MY_KV_NAMESPACE"
-# id = "xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx"
+[[kv_namespaces]]
+binding = "APP_FEATURES_STORE"
+id = "1e7f5bea90134d4a8ef8ba9e2e9818d5"
 
 # [[r2_buckets]]
 # binding = "MY_BUCKET"
