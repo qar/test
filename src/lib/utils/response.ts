@@ -1,12 +1,12 @@
 import { Context } from "hono";
-import { StatusCode } from "hono/utils/http-status";
+import { ContentfulStatusCode } from "hono/utils/http-status";
 
 export class ResponseUtil {
-  static success(c: Context, data: any, status: StatusCode = 200) {
+  static success(c: Context, data: any, status: ContentfulStatusCode = 200) {
     return c.json(data, status);
   }
 
-  static error(c: Context, message: string, status: StatusCode = 400) {
+  static error(c: Context, message: string, status: ContentfulStatusCode = 400) {
     return c.json({ error: message }, status);
   }
 

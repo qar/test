@@ -25,12 +25,14 @@ app.get('/', (c) => {
 // Legacy routes
 app.route('/ecowatt', EcoWatt);
 
-const v1 = app.route('/v1');
+const v1 = new Hono().basePath('/v1');
 
 v1.route('/ecowatt', EcoWatt);
 v1.route('/ecogaz', Ecogaz);
 v1.route('/appFeatures', AppFeatures);
 v1.route('/weather', Weather);
+
+app.route('/', v1);
 
 const scheduled: ExportedHandlerScheduledHandler<Bindings> = async (event, env, ctx) => {
   const ecoWattSignalModel = new EcoWattSignalModel(env.DB);
