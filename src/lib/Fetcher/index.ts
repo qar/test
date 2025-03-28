@@ -26,6 +26,7 @@ export default class Fetcher {
     request: Interceptors<RequestInit>[];
     response: Interceptors<FetcherResponse>[];
   };
+  private readonly abortController = new AbortController();
 
   constructor({ baseUrl = '', timeout }: FetcherConfig) {
     this.baseUrl = typeof baseUrl === 'string' ? new URL(baseUrl) : baseUrl;
@@ -68,27 +69,32 @@ export default class Fetcher {
         requestUrl.searchParams.append(key, params[key]);
       });
     }
-    
+
     const request = fetch(requestUrl, {
       ...options,
       headers: requestOptions.headers,
+      signal: this.abortController.signal
     });
-    const { timeout, wait } = this;
+    const { timeout } = this;
 
     if (timeout) {
-      try {
-        const response = await Promise.race([request, wait(timeout)]) as Response;
-        return {
-          data: this.parseJSON(response) as T,
-          status: response.status,
-          statusText: response.statusText,
-          headers: response.headers,
-          config: options,
-          request: requestUrl,
-        }
-      } catch (error) {
-        return Promise.reject(error);
-      }
+      // try {
+      //   const response = await Promise.race([request, wait(timeout)]) as Response
+      //   return {
+      //     data: this.parseJSON(response) as T,
+      //     status: response.status,
+      //     statusText: response.statusText,
+      //     headers: response.headers,
+      //     config: options,
+      //     request: requestUrl,
+      //   }
+      // } catch (error) {
+      //   return Promise.reject(error);
+      // }
+
+      setTimeout(() => {
+        this.abortController.abort();
+      }, timeout);
     }
 
     const response = await request as unknown as Response;
@@ -108,7 +114,7 @@ export default class Fetcher {
         await onFulfilled(responseData);
       })
     );
-    
+
     return responseData;
   }
 
