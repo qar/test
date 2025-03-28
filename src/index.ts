@@ -8,6 +8,7 @@ import Ecogaz from './handler/ecogaz';
 import AppFeatures from './handler/appFeatures';
 import EcoWattSignalModel from './schema/ecowattSignal';
 import EcogazSignalModel from './schema/ecogazSignal';
+import Weather from './handler/weather';
 import { fetchEcowattSignals } from './scheduled/ecowatt';
 import { fetchEcogazSignals } from './scheduled/ecogaz';
 
@@ -29,6 +30,7 @@ const v1 = app.route('/v1');
 v1.route('/ecowatt', EcoWatt);
 v1.route('/ecogaz', Ecogaz);
 v1.route('/appFeatures', AppFeatures);
+v1.route('/weather', Weather);
 
 const scheduled: ExportedHandlerScheduledHandler<Bindings> = async (event, env, ctx) => {
   const ecoWattSignalModel = new EcoWattSignalModel(env.DB);
