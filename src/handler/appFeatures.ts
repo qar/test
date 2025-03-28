@@ -1,5 +1,6 @@
 import { Hono } from "hono";
 import { md5 } from "hono/utils/crypto";
+import { ResponseUtil } from "../lib/utils/response";
 
 const app = new Hono<{ Bindings: Bindings }>();
 
@@ -9,7 +10,7 @@ app.use(async (c, next) => {
   const requestId = c.req.header('X-Request-ID');
   
   if (!requestId) {
-    return c.json({ error: 'Request ID is required' }, 401);
+    return ResponseUtil.unauthorized(c, 'Request ID is required');
   }
 
   const now = new Date().getMinutes();
@@ -17,7 +18,7 @@ app.use(async (c, next) => {
   const hashRequstId = await md5(`${deviceId}${now}`);
 
   if (hashRequstId !== requestId) {
-    return c.json({ error: 'Invalid Request ID' }, 401);
+    return ResponseUtil.unauthorized(c, 'Invalid Request ID');
   }
   
   await next();
@@ -29,10 +30,10 @@ app.get('/:devId', async (c) => {
   const data = await c.env.APP_FEATURES_STORE.get(devId, { type: 'json' });
 
   if (!data) {
-    return c.notFound();
+    return ResponseUtil.notFound(c);
   }
 
-  return c.json(data);
+  return ResponseUtil.success(c, data);
 });
 
 app.put('/:devId', async (c) => {
@@ -41,7 +42,7 @@ app.put('/:devId', async (c) => {
 
   await c.env.APP_FEATURES_STORE.put(devId, JSON.stringify(data));
 
-  return c.json({}, 200);
+  return ResponseUtil.success(c, {}, 201);
 });
 
 app.patch('/:devId', async (c) => {
@@ -52,14 +53,14 @@ app.patch('/:devId', async (c) => {
 
   if (!existingData) {
     await c.env.APP_FEATURES_STORE.put(devId, JSON.stringify(data));
-    return c.json(data, 201);
+    return ResponseUtil.success(c, data, 201);
   }
 
   const newData = { ...existingData, ...data };
 
   await c.env.APP_FEATURES_STORE.put(devId, JSON.stringify(newData));
 
-  return c.json(newData, 200);
+  return ResponseUtil.success(c, newData, 200);
 });
 
 export default app;
