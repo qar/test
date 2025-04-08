@@ -23,36 +23,35 @@ app.get('/', (c) => {
 });
 
 // Legacy routes
-app.route('/ecowatt', EcoWatt);
+// app.route('/ecowatt', EcoWatt);
 
 const v1 = new Hono().basePath('/v1');
 
-v1.route('/ecowatt', EcoWatt);
-v1.route('/ecogaz', Ecogaz);
-v1.route('/appFeatures', AppFeatures);
+// v1.route('/ecowatt', EcoWatt);
+// v1.route('/ecogaz', Ecogaz);
+// v1.route('/appFeatures', AppFeatures);
 v1.route('/weather', Weather);
 
 app.route('/', v1);
 
-const scheduled: ExportedHandlerScheduledHandler<Bindings> = async (event, env, ctx) => {
-  const ecoWattSignalModel = new EcoWattSignalModel(env.DB);
-  const ecogazSignalModel = new EcogazSignalModel(env.DB);
-
-  switch (event.cron) {
-    // Fetch EcoWatt signals at UTC 3:00 AM and 4:00 AM
-    case '5 15,16 * * *':
-      await fetchEcowattSignals(ecoWattSignalModel);
-      break;
-    // Fetch Ecogaz signals at UTC 8:00 AM and 9:00 AM
-    case '5 8,9 * * *':
-      await fetchEcogazSignals(ecogazSignalModel);
-      break;
-    default:
-      break;
-  }
-};
+// const scheduled: ExportedHandlerScheduledHandler<Bindings> = async (event, env, ctx) => {
+//   const ecoWattSignalModel = new EcoWattSignalModel(env.DB);
+//   const ecogazSignalModel = new EcogazSignalModel(env.DB);
+// 
+//   switch (event.cron) {
+//     // Fetch EcoWatt signals at UTC 3:00 AM and 4:00 AM
+//     case '5 15,16 * * *':
+//       await fetchEcowattSignals(ecoWattSignalModel);
+//       break;
+//     // Fetch Ecogaz signals at UTC 8:00 AM and 9:00 AM
+//     case '5 8,9 * * *':
+//       await fetchEcogazSignals(ecogazSignalModel);
+//       break;
+//     default:
+//       break;
+//   }
+// };
 
 export default {
   fetch: app.fetch,
-  scheduled: scheduled,
 };

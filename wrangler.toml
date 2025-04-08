@@ -1,22 +1,22 @@
 name = "extension-hub"
 compatibility_date = "2023-12-01"
-main="./src/index.ts"
+main = "./src/index.ts"
 
 # [vars]
 # MY_VAR = "my-variable"
 
-[[kv_namespaces]]
-binding = "APP_FEATURES_STORE"
-id = "1e7f5bea90134d4a8ef8ba9e2e9818d5"
+# [[kv_namespaces]]
+# binding = "APP_FEATURES_STORE"
+# id = "1e7f5bea90134d4a8ef8ba9e2e9818d5"
 
 # [[r2_buckets]]
 # binding = "MY_BUCKET"
 # bucket_name = "my-bucket"
 
-[[d1_databases]]
-binding = "DB"
-database_name = "extension-hub"
-database_id = "523ddb49-2072-4558-a964-432a5952e560"
+# [[d1_databases]]
+# binding = "DB"
+# database_name = "extension-hub"
+# database_id = "523ddb49-2072-4558-a964-432a5952e560"
 
-[triggers]
-crons = ["5 8,9 * * *", "5 15,16 * * *"]
+# [triggers]
+# crons = ["5 8,9 * * *", "5 15,16 * * *"]

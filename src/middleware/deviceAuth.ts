@@ -30,6 +30,8 @@ const deviceAuth = createMiddleware(async (c, next) => {
   const timeDiff = now - Number(timestamp);
 
   if (isNaN(timeDiff) || timeDiff < 0 || timeDiff > 300000) {
+    console.log('headers', { deviceId, timestamp, signature });
+    console.log('timeDiff', timeDiff);
     return ResponseUtil.unauthorized(c, 'Request expired or invalid timestamp');
   }
 
