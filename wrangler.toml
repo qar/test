@@ -1,4 +1,4 @@
-name = "extension-hub"
+name = "test"
 compatibility_date = "2023-12-01"
 main = "./src/index.ts"
 
